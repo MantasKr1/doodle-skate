@@ -26,10 +26,19 @@
     <Image Include="resources\background.png">
       <Filter>resources</Filter>
     </Image>
-    <Image Include="resources\doodle1.png">
+    <Image Include="resources\platform.png">
       <Filter>resources</Filter>
     </Image>
-    <Image Include="resources\platform.png">
+    <Image Include="resources\platform1.png">
+      <Filter>resources</Filter>
+    </Image>
+    <Image Include="resources\platform2.png">
+      <Filter>resources</Filter>
+    </Image>
+    <Image Include="resources\platform3.png">
+      <Filter>resources</Filter>
+    </Image>
+    <Image Include="resources\Enemy.png">
       <Filter>resources</Filter>
     </Image>
   </ItemGroup>
@@ -40,5 +49,15 @@
     <Filter Include="src">
       <UniqueIdentifier>{6870bff3-1fff-4584-ab3c-42883ba8abde}</UniqueIdentifier>
     </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="resources\arialbd.ttf">
+      <Filter>resources</Filter>
+    </Font>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="highscore.txt">
+      <Filter>src</Filter>
+    </Text>
   </ItemGroup>
 </Project>

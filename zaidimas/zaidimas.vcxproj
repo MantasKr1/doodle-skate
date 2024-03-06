@@ -97,14 +97,23 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="resources\background.png" />
-    <Image Include="resources\doodle1.png" />
     <Image Include="resources\doodle2.png" />
+    <Image Include="resources\Enemy.png" />
     <Image Include="resources\platform.png" />
+    <Image Include="resources\platform1.png" />
+    <Image Include="resources\platform2.png" />
+    <Image Include="resources\platform3.png" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\defines.h" />
     <ClInclude Include="src\objects.h" />
     <ClInclude Include="src\utils.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="resources\arialbd.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="highscore.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
