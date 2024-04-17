@@ -31,7 +31,7 @@ bool utils::IsHit(Player& player, Enemy& enemy)
 	const bool betweenX = IsBetween(player.LegsStartX(), enemy.StartX(), enemy.EndX()) ||
 		IsBetween(player.LegsEndX(), enemy.StartX(), enemy.EndX());
 
-	const bool betweenY = IsBetween(player.y + 80, enemy.TopY(), enemy.BottomY()) || IsBetween(player.y, enemy.TopY(), enemy.BottomY());
+	const bool betweenY = IsBetween(player.Y() + 80, enemy.TopY(), enemy.BottomY()) || IsBetween(player.Y(), enemy.TopY(), enemy.BottomY());
 
 	return betweenX && betweenY;
 }
@@ -42,6 +42,16 @@ bool utils::IsOnGround(Player& player, Ground& ground)
 		IsBetween(player.LegsEndX(), ground.StartX(), ground.EndX());
 
 	const bool betweenY = IsBetween(player.LegsY(), ground.TopY() + 60, ground.BottomY());
+
+	return betweenX && betweenY;
+}
+
+bool utils::HitGround(Ground& ground, Bullet& bullet)
+{
+	const bool betweenX = IsBetween(bullet.X(), ground.StartX(), ground.EndX()) ||
+		IsBetween(bullet.X(), ground.StartX(), ground.EndX());
+
+	const bool betweenY = IsBetween(bullet.Y(), ground.Y() + 30, ground.Y() + GROUND_HEIGHT);
 
 	return betweenX && betweenY;
 }

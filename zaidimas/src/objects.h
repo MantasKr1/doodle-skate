@@ -1,72 +1,265 @@
 #pragma once
 
 #include "Defines.h"
+#include <stdlib.h> 
+#include <SFML/Graphics.hpp>
+#include <ctime>
 
-struct Player
+using namespace sf;
+
+class Textures
 {
-	float LegsStartX() { return x + 24; }
-
-	float LegsEndX() { return x + 64; }
-
-	float StartY() { return y; }
-
-	float LegsY() { return y + 73; }
-
-	float LegsEndY() { return y; +73; }
-
-	float x, y; // virsutinio kairiojo kampo koordinates
+private:
+	Texture tBackground, tPlayer, tPlatform, tGround1, tGround2, tGround3, tEnemy;
+public:
+	Textures()
+	{
+		tBackground.loadFromFile("resources/background.png");
+		tPlayer.loadFromFile("resources/doodle2.png");
+		tPlatform.loadFromFile("resources/platform.png");
+		tGround1.loadFromFile("resources/platform1.png");
+		tGround2.loadFromFile("resources/platform2.png");
+		tGround3.loadFromFile("resources/platform3.png");
+		tEnemy.loadFromFile("resources/Enemy.png");
+	}
+	Texture &Background()
+	{
+		return tBackground;
+	}
+	Texture &Player()
+	{
+		return tPlayer;
+	}
+	Texture &Platform()
+	{
+		return tPlatform;
+	}
+	Texture &Ground1()
+	{
+		return tGround1;
+	}
+	Texture &Ground2()
+	{
+		return tGround2;
+	}
+	Texture &Ground3()
+	{
+		return tGround3;
+	}
+	Texture &Enemy()
+	{
+		return tEnemy;
+	}
 };
 
-struct Plate
+class Sprites
 {
-	float StartX() { return x; }
-
-	float EndX() { return x + PLATES_WIDTH; }
-
-	float TopY() { return y; }
-
-	float BottomY() { return y + PLATES_HEIGHT; }
-
-	float x, y; // virsutinio kairiojo kampo koordinates
+private:
+	Textures texture;
+	Sprite sprBackground, sprPlayer, sprPlate, sprGround1, sprGround2, sprGround3, sprEnemy;
+public:
+	Sprites()
+	{
+		sprBackground.setTexture(texture.Background());
+		sprPlayer.setTexture(texture.Player());
+		sprPlate.setTexture(texture.Platform());
+		sprGround1.setTexture(texture.Ground1());
+		sprGround2.setTexture(texture.Ground2());
+		sprGround3.setTexture(texture.Ground3());
+		sprEnemy.setTexture(texture.Enemy());
+	}
+	Sprite &Background()
+	{
+		return sprBackground;
+	}
+	Sprite &Player()
+	{
+		return sprPlayer;
+	}
+	Sprite &Plate()
+	{
+		return sprPlate;
+	}
+	Sprite &Ground1()
+	{
+		return sprGround1;
+	}
+	Sprite &Ground2()
+	{
+		return sprGround2;
+	}
+	Sprite &Ground3()
+	{
+		return sprGround3;
+	}
+	Sprite &Enemy()
+	{
+		return sprEnemy;
+	}
 };
 
-struct Ground
+class Player
 {
-	float StartX() { return x; }
+private:
+	float _x, _y;
+	bool _jump;
+	bool _doubleJump;
+public:
+	Player(float x, float y) : _x(x), _y(y), _jump(false), _doubleJump(false) { }
 
-	float EndX() { return x + GROUND_WIDTH; }
+	~Player() {}
 
-	float TopY() { return y; }
+	float LegsStartX() { return _x + 24; }
 
-	float BottomY() { return y + GROUND_HEIGHT - GROUND_HEIGHT / 2; }
+	float LegsEndX() { return _x + 64; }
 
-	float x, y; // virsutinio kairiojo kampo koordinates
+	float StartY() { return _y; }
 
-	int kuris;
+	float LegsY() { return _y + 73; }
+
+	float LegsEndY() { return _y + 73; }
+
+	void ChangeX(float temp) { _x += temp; }
+
+	void ChangeY(float temp) { _y += temp; }
+
+	void Jump() { _jump = true; }
+
+	void Jumped() { _jump = false; DoubleJump(); }
+
+	void DoubleJump() { _doubleJump = true; }
+
+	void DoubleJumped() { _doubleJump = false; }
+
+	bool canJump() { return _jump; }
+
+	bool canDoubleJump() { return _doubleJump; }
+
+	void PosY(float temp) { _y = temp; }
+
+	float X() { return _x; }
+
+	float Y() { return _y; }
 };
 
-struct Bullet
+class Plate
 {
-	float StartX() { return x; }
+private:
+	float _x, _y;
+public:
+	Plate(float x, float y) : _x(x), _y(y) { }
 
-	float EndX() { return x + BULLET_WIDTH; }
+	~Plate() {}
 
-	float TopY() { return y; }
+	float StartX() { return _x; }
 
-	float BottomY() { return y + BULLET_WIDTH; }
+	float EndX() { return _x + PLATES_WIDTH; }
 
-	float x, y; // virsutinio kairiojo kampo koordinates
+	float TopY() { return _y; }
+
+	float BottomY() { return _y + PLATES_HEIGHT; }
+
+	void ChangeX(float temp) { _x += temp; }
+
+	void ChangeY(float temp) { _y += temp; }
+
+	void SetPosX(float temp) { _x = temp; }
+
+	void SetPosY(float temp) { _y = temp; }
+
+	float X() { return _x; }
+
+	float Y() { return _y; }
 };
 
-struct Enemy
+class Ground
 {
-	float StartX() { return x; }
+private:
+	float _x, _y;
+	Sprite _ground;
+public:
+	Ground() : _x(), _y(), _ground() { }
 
-	float EndX() { return x + ENEMY_WIDTH; }
+	Ground(float x, float y, Sprite ground) : _x(x), _y(y), _ground(ground) { }
 
-	float TopY() { return y; }
+	~Ground() {}
 
-	float BottomY() { return y + ENEMY_HEIGHT; }
+	float StartX() { return _x; }
 
-	float x, y; // virsutinio kairiojo kampo koordinates
+	float EnemyPos() { return _x + (GROUND_WIDTH / 2 - ENEMY_WIDTH / 2); }
+
+	float EndX() { return _x + GROUND_WIDTH; }
+
+	float TopY() { return _y; }
+
+	float BottomY() { return _y + GROUND_HEIGHT - GROUND_HEIGHT / 2; }
+
+	void ChangeX(float temp) { _x += temp; }
+
+	void ChangeY(float temp) { _y += temp; }
+
+	float X() { return _x; }
+
+	float Y() { return _y; }
+
+	Sprite& Sprite()
+	{
+		return _ground;
+	}
+};
+
+class Bullet
+{
+private:
+	float _x, _y;
+	clock_t _time;
+public:
+
+	Bullet(float x, float y, clock_t time) : _x(x), _y(y), _time(time) { }
+
+	~Bullet() {}
+
+	float StartX() { return _x; }
+
+	float EndX() { return _x + BULLET_WIDTH; }
+
+	float TopY() { return _y; }
+
+	float BottomY() { return _y + BULLET_WIDTH; }
+
+	void ChangeX(float temp) { _x += temp; }
+
+	void ChangeY(float temp) { _y += temp; }
+
+	float X() { return _x; }
+
+	float Y() { return _y; }
+
+	clock_t Time() { return _time; }
+};
+
+class Enemy
+{
+private:
+	float _x, _y;
+public:
+	Enemy(float x, float y) : _x(x), _y(y) { }
+
+	~Enemy() { }
+
+	float StartX() { return _x; }
+
+	float EndX() { return _x + ENEMY_WIDTH; }
+
+	float TopY() { return _y; }
+
+	float BottomY() { return _y + ENEMY_HEIGHT; }
+
+	float X() { return _x; }
+
+	float Y() { return _y; }
+
+	void ChangeX(float temp) { _x += temp; }
+
+	void ChangeY(float temp) { _y += temp; }
 };
